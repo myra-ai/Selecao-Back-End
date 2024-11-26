@@ -1,61 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# **Sistema de Autenticação e Comentários - Laravel** 🚀
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bem-vindo ao repositório do **Sistema de Autenticação e Comentários**, desenvolvido utilizando o **Laravel**.  
+Este projeto foi projetado para oferecer uma solução robusta para autenticação de usuários e gerenciamento de comentários com uma API segura, organizada e expansível.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## **✨ Funcionalidades**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🔐 **Sistema de Autenticação**
+- **Registro de Usuários**:  
+  Permite que novos usuários se registrem, com:
+  - Validação de campos obrigatórios.
+  - Senhas armazenadas de forma segura com `Hash::make`.
+  - Prevenção de duplicidade de e-mails.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Login de Usuários**:  
+  - Autenticação via e-mail e senha.
+  - Geração de tokens de autenticação usando o Laravel Sanctum.
+  - Retorno de mensagens apropriadas em caso de erro.
 
-## Learning Laravel
+- **Logout de Usuários**:  
+  - Invalidação do token, encerrando a sessão do usuário.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📝 **Sistema de Comentários**
+- **CRUD de Comentários**:
+  - **Criar**: Usuários autenticados podem adicionar novos comentários.
+  - **Ler**: Comentários disponíveis publicamente ou filtrados por autor.
+  - **Editar**: Apenas o autor ou administrador pode editá-lo.
+  - **Excluir**: Apenas o autor ou admininistrador pode deletar seus comentários.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Validação e Segurança**:
+  - Validação de entradas, garantindo dados consistentes.
+  - Middleware protege as rotas, limitando o acesso a usuários autenticados.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## **🛠️ Estrutura do Banco de Dados**
+O projeto utiliza **migrations** para criar e configurar as tabelas necessárias:
 
-### Premium Partners
+### **Tabela `users`**
+| Campo       | Tipo       | Descrição                    |
+|-------------|------------|------------------------------|
+| `id`        | Inteiro    | Identificador único          |
+| `name`      | String     | Nome do usuário              |
+| `email`     | String     | E-mail (único)              |
+| `is_admin`  | Bool       |    Administrador            |
+| `password`  | String     | Senha encriptada            |
+| `created_at`| Timestamp  | Data de criação             |
+| `updated_at`| Timestamp  | Data de última atualização  |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+### **Tabela `comments`**
+| Campo       | Tipo       | Descrição                    |
+|-------------|------------|------------------------------|
+| `id`        | Inteiro    | Identificador único          |
+| `user_id`   | Inteiro    | Referência ao autor          |
+| `content`   | Texto      | Conteúdo do comentário       |
+| `created_at`| Timestamp  | Data de criação             |
+| `updated_at`| Timestamp  | Data de última atualização  |
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### **Tabela `comment_history`**
+| Campo          | Tipo       | Descrição                              |
+|-----------------|------------|----------------------------------------|
+| `id`           | Inteiro    | Identificador único                    |
+| `comment_id`   | Inteiro    | Referência ao comentário original      |
+| `previous_content` | Texto  | Conteúdo anterior do comentário        |
+| `edited_at`    | Timestamp  | Data e hora da edição                  |
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## **🌟 Estrutura Tecnológica**
+- **Framework**: Laravel - Base para desenvolvimento do back-end e APIs.
+- **Autenticação**: Laravel Sanctum - Para geração de tokens e segurança do acesso.
+- **Banco de Dados**: MySQL - Para armazenar usuários, comentários e histórico.
+- **Migrations**: Gerenciamento da estrutura do banco de dados.
+- **Middleware**: Proteção de rotas e autenticação.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## **🛑 Limitações do Projeto**
+Embora o projeto implemente a maior parte das funcionalidades planejadas, **não foi possível configurar o PHPUnit** devido a erros persistentes em bibliotecas relacionadas.  
+Os problemas encontrados impediam a execução adequada dos testes, e optou-se por focar na estabilidade das APIs. Essa limitação será revisada em versões futuras.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## **🎯 Próximos Passos**
+- Resolver as inconsistências na configuração do PHPUnit.
+- Adicionar testes automatizados para validação das funcionalidades existentes.
+- Implementar paginação nos endpoints para melhorar a escalabilidade.
+- Criar endpoints adicionais para funcionalidades futuras, como respostas a comentários.
+
+---
+
+## **🧾 Licença**
+Este projeto está licenciado sob a **MIT License**. Consulte o arquivo `LICENSE` para mais informações.
+
+---
+
+## **📬 Contato**
+Caso tenha dúvidas ou sugestões, entre em contato:
+- **E-mail**: almeidamyrelalima@gmail.com
+- **LinkedIn**:https://www.linkedin.com/in/myrela-almeida-ab3852225/
+
+---
+
+Obrigada por conferir este projeto! 😊  
+Desenvolvido com ❤️ e dedicação.
