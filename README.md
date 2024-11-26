@@ -58,14 +58,16 @@ O projeto utiliza **migrations** para criar e configurar as tabelas necessárias
 | `created_at`| Timestamp  | Data de criação             |
 | `updated_at`| Timestamp  | Data de última atualização  |
 
+### **Tabela `comment_histories`**
 
-### **Tabela `comment_history`**
-| Campo          | Tipo       | Descrição                              |
-|-----------------|------------|----------------------------------------|
-| `id`           | Inteiro    | Identificador único                    |
-| `comment_id`   | Inteiro    | Referência ao comentário original      |
-| `previous_content` | Texto  | Conteúdo anterior do comentário        |
-| `edited_at`    | Timestamp  | Data e hora da edição                  |
+| **Campo**       | **Descrição**                                                                                     | **Tipo**         |
+|------------------|-------------------------------------------------------------------------------------------------|------------------|
+| `id`            | Identificador único do histórico.                                                                | `bigint` (PK)    |
+| `comment_id`    | Referência ao comentário relacionado (chave estrangeira).                                         | `bigint` (FK)    |
+| `content`       | Conteúdo atualizado do comentário no momento da ação.                                            | `text`           |
+| `edited_at`     | Data e hora da última edição realizada no comentário.                                             | `timestamp`      |
+| `created_at`    | Data e hora em que o histórico foi criado.                                                        | `timestamp`      |
+| `updated_at`    | Data e hora da última modificação no histórico (atualização do registro na tabela).               | `timestamp`      |
 
 ---
 
